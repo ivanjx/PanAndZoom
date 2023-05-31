@@ -190,7 +190,20 @@ public partial class ZoomBorder : Border
         {
             return;
         }
+
         var point = e.GetPosition(_element);
+        bool clampedUp =
+            ZoomX == MaxZoomX || ZoomY == MaxZoomY;
+        bool clampedDown =
+            ZoomX == MinZoomX || ZoomY == MinZoomY;
+        
+        if (clampedUp && e.Delta.Y > 0 || // Hitting upper limit.
+            clampedDown && e.Delta.Y < 0) // Hitting lower limit.
+        {
+            // Stop zooming in/out when limits are hit.
+            return;
+        }
+        
         ZoomDeltaTo(e.Delta.Y, point.X, point.Y);
     }
 

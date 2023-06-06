@@ -224,6 +224,16 @@ public partial class ZoomBorder : Border
         if (_element != null && _captured == false && _isPanning == false)
         {
             var point = e.GetPosition(_element);
+
+            if (point.X < 0 ||
+                point.X > _element.Bounds.Width ||
+                point.Y < 0 ||
+                point.Y > _element.Bounds.Height)
+            {
+                // Pointer is not on the child control.
+                return;
+            }
+
             BeginPanTo(point.X, point.Y);
             _captured = true;
             _isPanning = true;

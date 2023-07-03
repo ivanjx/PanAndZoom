@@ -190,7 +190,20 @@ public partial class ZoomBorder : Border
         {
             return;
         }
+
         var point = e.GetPosition(_element);
+        bool clampedUp =
+            ZoomX == MaxZoomX || ZoomY == MaxZoomY;
+        bool clampedDown =
+            ZoomX == MinZoomX || ZoomY == MinZoomY;
+        
+        if (clampedUp && e.Delta.Y > 0 || // Hitting upper limit.
+            clampedDown && e.Delta.Y < 0) // Hitting lower limit.
+        {
+            // Stop zooming in/out when limits are hit.
+            return;
+        }
+        
         ZoomDeltaTo(e.Delta.Y, point.X, point.Y);
     }
 
@@ -211,6 +224,16 @@ public partial class ZoomBorder : Border
         if (_element != null && _captured == false && _isPanning == false)
         {
             var point = e.GetPosition(_element);
+
+            if (point.X < 0 ||
+                point.X > _element.Bounds.Width ||
+                point.Y < 0 ||
+                point.Y > _element.Bounds.Height)
+            {
+                // Pointer is not on the child control.
+                return;
+            }
+
             BeginPanTo(point.X, point.Y);
             _captured = true;
             _isPanning = true;

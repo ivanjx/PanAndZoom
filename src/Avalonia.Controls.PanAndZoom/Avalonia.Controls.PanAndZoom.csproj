@@ -19,7 +19,7 @@
   <Import Project="..\..\build\ReferenceAssemblies.props" />
   <Import Project="..\..\build\Avalonia.props" />
   <ItemGroup>
-    <PackageReference Update="Avalonia" Version="11.1.999-cibuild0041163-beta" />
+    <PackageReference Update="Avalonia" Version="11.1.999-cibuild0043024-beta" />
   </ItemGroup>
 
 </Project>
